@@ -5,14 +5,26 @@ public class User {
     private String lastName;
     private int age;
 
-    public User(){
-
+    public int getUserId() {
+        return userId;
     }
 
-    public User(String firstName, String lastName, int age) {
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    private int userId;
+
+    public User(int userId){
+
+        this.userId = userId;
+    }
+
+    public User(String firstName, String lastName, int age, int userId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+        this.userId = userId;
     }
 
     public String getFirstName() {
