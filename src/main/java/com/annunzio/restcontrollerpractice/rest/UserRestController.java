@@ -2,10 +2,9 @@ package com.annunzio.restcontrollerpractice.rest;
 
 import com.annunzio.restcontrollerpractice.entity.User;
 import jakarta.annotation.PostConstruct;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,15 @@ public class UserRestController {
             return usersList.get(userId);
         }
         throw new UserNotFoundException("User with id: " + userId + " not found");
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handleException(UserNotFoundException exception){
+        UserErrorResponse errorResponse = new UserErrorResponse();
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 }
