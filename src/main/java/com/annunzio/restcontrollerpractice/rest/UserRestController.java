@@ -32,12 +32,10 @@ public class UserRestController {
 
     @GetMapping("/users/{userId}")
     public User getUserById(@PathVariable int userId){
-        for(User u: usersList){
-            if(u.getUserId() == userId){
-                return u;
-            }
+        if(usersList.contains(userId)){
+            return usersList.get(userId);
         }
-        return null;
+        throw new UserNotFoundException("User with id: " + userId + " not found");
     }
 
 }
