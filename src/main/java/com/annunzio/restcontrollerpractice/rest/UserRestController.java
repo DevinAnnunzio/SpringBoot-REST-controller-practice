@@ -30,5 +30,14 @@ public class UserRestController {
         return  usersList;
     }
 
+    @GetMapping("/users/{userId}")
+    public User getUserById(@PathVariable int userId){
+        for(User u: usersList){
+            if(u.getUserId() == userId){
+                return u;
+            }
+        }
+        return null;
+    }
 
 }
