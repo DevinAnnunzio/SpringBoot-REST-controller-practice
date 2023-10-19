@@ -2,6 +2,7 @@ package com.annunzio.restcontrollerpractice.rest;
 
 import com.annunzio.restcontrollerpractice.entity.User;
 import jakarta.annotation.PostConstruct;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,16 @@ public class UserRestController {
         errorResponse.setMessage(exception.getMessage());
         errorResponse.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    //Handle generic exception
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handleException(Exception exception){
+        UserErrorResponse errorResponse = new UserErrorResponse();
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
