@@ -32,29 +32,13 @@ public class UserRestController {
 
     @GetMapping("/users/{userId}")
     public User getUserById(@PathVariable int userId){
-        if(usersList.contains(userId)){
-            return usersList.get(userId);
+        for(User u: usersList){
+            if(u.getUserId() == userId){
+                return u;
+            }
         }
         throw new UserNotFoundException("User with id: " + userId + " not found");
     }
 
-    @ExceptionHandler
-    public ResponseEntity<UserErrorResponse> handleException(UserNotFoundException exception){
-        UserErrorResponse errorResponse = new UserErrorResponse();
-        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMessage(exception.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-    //Handle generic exception
-    @ExceptionHandler
-    public ResponseEntity<UserErrorResponse> handleException(Exception exception){
-        UserErrorResponse errorResponse = new UserErrorResponse();
-        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-        errorResponse.setMessage(exception.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
 
 }
